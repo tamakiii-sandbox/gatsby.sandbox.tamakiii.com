@@ -22,4 +22,5 @@ deploy: build
 
 clean:
 	rm -rf public
+	rm -rf .cache
 	rm -rf node_modules
