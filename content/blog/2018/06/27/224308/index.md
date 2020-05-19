@@ -3,7 +3,7 @@ title: Amazon Linux 2 on Amazon Workspaces
 date: "2018-06-27"
 ---
 
-[https://twitter.com/tamakiii/status/1011966260584726528:embed]
+https://twitter.com/tamakiii/status/1011966260584726528
 
 手順は classmethod の記事を見つつポチポチと。
 メールが届くまで20分ほどかかるのと、パスワードポリシーに合っていないと気づきにくい点だけアレ
