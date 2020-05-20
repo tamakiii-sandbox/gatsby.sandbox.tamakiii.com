@@ -43,10 +43,21 @@ module.exports = {
             },
           },
           {
-            resolve: "gatsby-transformer-remark",
+            resolve: `gatsby-transformer-remark`,
             options: {
-              plugins: ["@weknow/gatsby-remark-twitter"]
-            }
+              plugins: [
+                {
+                  resolve: `@raae/gatsby-remark-oembed`,
+                  options: {
+                    // usePrefix: true,
+                    usePrefix: ["embed", "video", "oembed"],
+                    providers: {
+                      exclude: ["Reddit"],
+                    },
+                  },
+                },
+              ],
+            },
           },
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
