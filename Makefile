@@ -14,6 +14,9 @@ dependencies:
 node_modules:
 	npm install
 
+public/CNAME:
+	cp CNAME $@
+
 develop:
 	npx --no-install gatsby develop
 
