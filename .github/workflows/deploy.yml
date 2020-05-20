@@ -18,10 +18,13 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
 
+    - name: Install
+      run: make install
+
 #     - name: Cache dependencies
 #       uses: actions/cache@v1
 #       with:
-#         path: ~/.npm
+#         path: node_modules
 #         key: ${{ runner.os }}-package-lock-${{ hashFiles('**/package-lock.json') }}
 #         restore-keys: ${{ runner.os }}-package-lock
 
