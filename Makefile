@@ -1,4 +1,4 @@
-.PHONY: help install dependencies build deploy clean
+.PHONY: help install dependencies develop build deploy clean
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -13,6 +13,9 @@ dependencies:
 
 node_modules:
 	npm install
+
+develop:
+	npx --no-install gatsby develop
 
 build:
 	npx --no-install gatsby build --prefix-paths
