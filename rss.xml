@@ -1,144 +1,1097 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsby-starter-blog-demo.netlify.com</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 20 May 2020 00:34:00 GMT</lastBuildDate><item><title><![CDATA[New Beginnings]]></title><description><![CDATA[Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/new-beginnings/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/new-beginnings/</guid><pubDate>Thu, 28 May 2015 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-right at the coast of the Semantics, a large language ocean. A small river named
-Duden flows by their place and supplies it with the necessary regelialia.&lt;/p&gt;
-&lt;h2&gt;On deer horse aboard tritely yikes and much&lt;/h2&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
-Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
-didn’t listen. She packed her seven versalia, put her initial into the belt and
-made herself on the way.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[なにもわからない]]></title><description><![CDATA[気分で技術系の雑記を書きます]]></description><link>http://gatsby.sandbox.tamakiii.com</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 20 May 2020 00:36:40 GMT</lastBuildDate><item><title><![CDATA[docker-compose の ${VAR:-default} 記法と .env で開発＆本番環境を設計する]]></title><description><![CDATA[docker-compose.yml で、シェルでよくある  記法が使えるのがあまり知られていないようだったので書きます。
+https://www.debuntu.org/how-to-bash-parameter-expansion-and-default-values…]]></description><link>http://gatsby.sandbox.tamakiii.com/2020/04/14/005648/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2020/04/14/005648/</guid><pubDate>Tue, 14 Apr 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;docker-compose.yml で、シェルでよくある &lt;code class=&quot;language-text&quot;&gt;${VAR:-default}&lt;/code&gt; 記法が使えるのがあまり知られていないようだったので書きます。
+[https://www.debuntu.org/how-to-bash-parameter-expansion-and-default-values/:embed:cite]&lt;/p&gt;
+&lt;p&gt;サンプルプロジェクトはこちらです
+[https://github.com/tamakiii-sandbox/docker-compose-variable:embed:cite]&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;PHP が動く Dockerfile と&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;docker&quot;&gt;&lt;pre class=&quot;language-docker&quot;&gt;&lt;code class=&quot;language-docker&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Dockerfile&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; docker.io/php&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;7.2.29&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cli&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;それを使う docker-compose.yml を用意します。今回はサービスは1つです。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker-compose.yml&lt;/span&gt;
+&lt;span class=&quot;token key atrule&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;3.7&quot;&lt;/span&gt;
+&lt;span class=&quot;token key atrule&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;php&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; .
+    &lt;span class=&quot;token key atrule&quot;&gt;working_dir&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; /app
+    &lt;span class=&quot;token key atrule&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; .&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;/app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;動かすプログラム &lt;code class=&quot;language-text&quot;&gt;src/main.php&lt;/code&gt; は環境変数 &lt;code class=&quot;language-text&quot;&gt;$MESSAGE&lt;/code&gt; を出力するだけです。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;php&quot;&gt;&lt;pre class=&quot;language-php&quot;&gt;&lt;code class=&quot;language-php&quot;&gt;&lt;span class=&quot;token php language-php&quot;&gt;&lt;span class=&quot;token delimiter important&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_ENV&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token double-quoted-string string&quot;&gt;&quot;MESSAGE&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;PHP_EOL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Dockerfile で &lt;code class=&quot;language-text&quot;&gt;ENV MESSAGE &amp;quot;hello&amp;quot;&lt;/code&gt; として&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; docker.io/php&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;7.2.29&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cli
+
+&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; MESSAGE &lt;span class=&quot;token string&quot;&gt;&quot;hello&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;これを実行すると、&lt;code class=&quot;language-text&quot;&gt;ENV&lt;/code&gt; した hello が出力されます。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose run --rm php php src/main.php
+hello&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;これは環境変数なので当然シェルも同様です&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose run --rm php sh -c &amp;#39;echo $MESSAGE&amp;#39;
+hello&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;docker-compose.yml で &lt;code class=&quot;language-text&quot;&gt;environment&lt;/code&gt; に表題の &lt;code class=&quot;language-text&quot;&gt;MESSAGE: ${MESSAGE:-holla}&lt;/code&gt; とすると&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;diff&quot;&gt;&lt;pre class=&quot;language-diff&quot;&gt;&lt;code class=&quot;language-diff&quot;&gt;&lt;span class=&quot;token coord&quot;&gt;--- a/docker-compose.yml&lt;/span&gt;
+&lt;span class=&quot;token coord&quot;&gt;+++ b/docker-compose.yml&lt;/span&gt;
+@@ -3,6 +3,8 @@ services:
+&lt;span class=&quot;token unchanged&quot;&gt;   php:
+     build:
+       context: .
+&lt;/span&gt;&lt;span class=&quot;token inserted-sign inserted&quot;&gt;+    environment:
++      MESSAGE: ${MESSAGE:-holla}
+&lt;/span&gt;&lt;span class=&quot;token unchanged&quot;&gt;     working_dir: /app
+     volumes:
+       - .:/app&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;デフォルト値の holla が出力されます&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose run --rm php php src/main.php
+holla&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;-e&lt;/code&gt; を指定するとこちらが優先されます&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose run --help | grep -- &amp;quot;-e KEY=VAL&amp;quot;
+    run [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] [-l KEY=VALUE...]
+    -e KEY=VAL            Set an environment variable (can be used multiple times)
+$ docker-compose run --rm -e MESSAGE=ciao php php src/main.php
+ciao&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; を docker-compose が勝手に読むので、状態を &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; に保持しておけます&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ echo &amp;quot;MESSAGE=haisai&amp;quot; &amp;gt; .env
+
+$ docker-compose run --rm php php src/main.php
+haisai&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;さて、ここで開発用にgitやvimを入れたくなった気持ちになってみます。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;diff&quot;&gt;&lt;pre class=&quot;language-diff&quot;&gt;&lt;code class=&quot;language-diff&quot;&gt;&lt;span class=&quot;token coord&quot;&gt;--- a/Dockerfile&lt;/span&gt;
+&lt;span class=&quot;token coord&quot;&gt;+++ b/Dockerfile&lt;/span&gt;
+&lt;span class=&quot;token coord&quot;&gt;@@ -1,3 +1,10 @@&lt;/span&gt;
+&lt;span class=&quot;token unchanged&quot;&gt; FROM docker.io/php:7.2.29-cli
+&lt;/span&gt;
+&lt;span class=&quot;token inserted-sign inserted&quot;&gt;+RUN apt-get update &amp;amp;&amp;amp; \
++    apt-get install -y \
++      vim \
++      git \
++      &amp;amp;&amp;amp; \
++    apt-get clean
++
+&lt;/span&gt;&lt;span class=&quot;token unchanged&quot;&gt; ENV MESSAGE &quot;hello&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;本番稼働時は要らないですよね&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose build
+Building php
+Step 1/4 : FROM docker.io/php:7.2.29-cli
+ ---&amp;gt; e7d2518687da
+Step 2/4 : ENV MESSAGE &amp;quot;hello&amp;quot;
+ ---&amp;gt; Using cache
+ ---&amp;gt; 51c63dafa792
+
+Step 3/4 : FROM production-pseudo AS development
+ ---&amp;gt; 51c63dafa792
+Step 4/4 : RUN apt-get update &amp;amp;&amp;amp;     apt-get install -y       vim       git       &amp;amp;&amp;amp;     apt-get clean
+ ---&amp;gt; Using cache
+ ---&amp;gt; 964a4048e6ab&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;そんなときは &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target&quot;&gt;target build stages&lt;/a&gt; の出番です。
+&lt;code class=&quot;language-text&quot;&gt;production-pseudo&lt;/code&gt; はまだ本番稼働していない疑似本番環境を表す語として使っています。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;docker&quot;&gt;&lt;pre class=&quot;language-docker&quot;&gt;&lt;code class=&quot;language-docker&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; docker.io/php&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;7.2.29&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cli AS production&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;pseudo
+
+&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# ここに本番で要るものだけインストールする&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# --&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; production&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;pseudo AS development
+
+&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; apt&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;get update &amp;amp;&amp;amp; \
+    apt&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;get install &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;y \
+      vim \
+      git \
+      &amp;amp;&amp;amp; \
+    apt&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;get clean&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;これで &lt;code class=&quot;language-text&quot;&gt;TARGET=production-pseudo&lt;/code&gt; 時はvimやgitをインストールしなくなりました&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose build
+Building php
+Step 1/2 : FROM docker.io/php:7.2.29-cli AS production-pseudo
+ ---&amp;gt; e7d2518687da
+Step 2/2 : ENV MESSAGE &amp;quot;hello&amp;quot;
+ ---&amp;gt; Using cache
+ ---&amp;gt; 51c63dafa792
+
+Successfully built 51c63dafa792
+Successfully tagged docker-compose-variable_php:latest&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;TARGET=development&lt;/code&gt; 時はインストールされます&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ echo &amp;quot;TARGET=development&amp;quot; &amp;gt; .env
+
+$ docker-compose build
+Building php
+Step 1/4 : FROM docker.io/php:7.2.29-cli AS production-pseudo
+ ---&amp;gt; e7d2518687da
+Step 2/4 : ENV MESSAGE &amp;quot;hello&amp;quot;
+ ---&amp;gt; Using cache
+ ---&amp;gt; 51c63dafa792
+
+Step 3/4 : FROM production-pseudo AS development
+ ---&amp;gt; 51c63dafa792
+Step 4/4 : RUN apt-get update &amp;amp;&amp;amp;     apt-get install -y       vim       git       &amp;amp;&amp;amp;     apt-get clean
+ ---&amp;gt; Running in 36bcf0f189fe
+
+$ docker-compose run --rm php which git
+/usr/bin/git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;これに VSCode の Remote Containers 拡張用を合わせて使うと相性が良いです。
+&lt;code class=&quot;language-text&quot;&gt;FROM development AS debug&lt;/code&gt; として XDebug をインストールする、といった使い方もできます（それなりに重いので）。&lt;/p&gt;
+&lt;p&gt;が、話が長くなるのでこれについてはまた次回書きます。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;ちなみに今回、 &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; を作ったりする &lt;code class=&quot;language-text&quot;&gt;docker.mk&lt;/code&gt; はこの様になりました&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;make&quot;&gt;&lt;pre class=&quot;language-make&quot;&gt;&lt;code class=&quot;language-make&quot;&gt;.PHONY: install install-dev development clean
+
+TARGET := production-pseudo
+
+install: \
+	.env \
+	build
+
+install-dev: \
+	development \
+	install
+
+development:
+	$(eval TARGET := development)
+
+.env:
+	touch $@
+	echo &amp;quot;TARGET=$(TARGET)&amp;quot; &amp;gt;&amp;gt; $@
+
+build:
+	docker-compose build
+
+clean:
+	rm -rf .env&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[alpineのapkで古いpackageを指定してインストールする]]></title><description><![CDATA[（これはメモ的なアレです。内容の正しさなどはアレです） たまに apk で指定バージョンのパッケージをインストールしたい時がある。
+例えば VSCode で Remote Container を使っていて、プラグインを動かす用に python 3.5.x…]]></description><link>http://gatsby.sandbox.tamakiii.com/2020/02/11/191548/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2020/02/11/191548/</guid><pubDate>Tue, 11 Feb 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;（これはメモ的なアレです。内容の正しさなどはアレです）&lt;/p&gt;
+&lt;p&gt;たまに apk で指定バージョンのパッケージをインストールしたい時がある。
+例えば VSCode で Remote Container を使っていて、プラグインを動かす用に python 3.5.x がほしい時（具体的には &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb&quot;&gt;CodeLLDB&lt;/a&gt; ）。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;apk add specific version package&lt;/code&gt; とかで検索してみると、&lt;code class=&quot;language-text&quot;&gt;package-name&amp;gt;1.2.3&lt;/code&gt; や &lt;code class=&quot;language-text&quot;&gt;package-name=1.2.3&lt;/code&gt; でインストールできると書いてあるものの、実際に試してみるとパッケージが見つからない。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;/ # apk add --no-cache python3=3.5
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+ERROR: unsatisfiable constraints:
+  python3-3.5.6-r0:
+    breaks: world[python3=3.5]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;どうも試行錯誤してみた感じでは、&lt;code class=&quot;language-text&quot;&gt;--repository&lt;/code&gt; オプションを指定しない場合は &lt;code class=&quot;language-text&quot;&gt;v3.11&lt;/code&gt; が使われていて、そもそも &lt;code class=&quot;language-text&quot;&gt;v3.11&lt;/code&gt; 内に古いパッケージが存在しなそうな挙動だった。
+それと &lt;code class=&quot;language-text&quot;&gt;=&lt;/code&gt; はだいぶ厳格らしく、&lt;code class=&quot;language-text&quot;&gt;package-name=1.2.3&lt;/code&gt; は通らず &lt;code class=&quot;language-text&quot;&gt;package-name=1.2.3-r12&lt;/code&gt; まで書かないといけないらしい。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;This however showed weasel&lt;/li&gt;
+&lt;li&gt;[https://pkgs.alpinelinux.org/packages?name=python3&amp;#x26;branch=v3.11]&lt;/li&gt;
+&lt;li&gt;[https://pkgs.alpinelinux.org/packages?name=python3&amp;#x26;branch=v3.5]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;結論、 &lt;code class=&quot;language-text&quot;&gt;--repository&lt;/code&gt; で古いパッケージを含むリポジトリを指定すればよい。もしかしてブランチの指定方法があるんじゃないかと思ったけどなさそう。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.5/main python3~=3.5&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;/etc/apk/repositories&lt;/code&gt; に足すのでも動きそうな気はする。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;bash-5.0# cat /etc/apk/repositories
+http://dl-cdn.alpinelinux.org/alpine/v3.11/main
+http://dl-cdn.alpinelinux.org/alpine/v3.11/community&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;バージョンの指定方法はいくつかあって、この辺りは動きそう。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;厳密に書く: &lt;code class=&quot;language-text&quot;&gt;python3=3.5.6-r0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;マイクロバージョンまで書く: &lt;code class=&quot;language-text&quot;&gt;python3~=3.5.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;マイナーバージョンまで書く: &lt;code class=&quot;language-text&quot;&gt;python3~=3.5&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;詳しくはこちら
+[https://github.com/tamakiii-sandbox/hello-apk-specific-version:embed:cite]&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Docker for Mac でも快適な Symfony 開発環境を作りたい]]></title><description><![CDATA[f:id:tamakiii:20191124095441j:plain  3日目の記事です。 昨日は  さんの 「JsonSchemaBundleを作った話」 でした。 Docker…]]></description><link>http://gatsby.sandbox.tamakiii.com/docker-for-mac-nfs-for-symfony/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/docker-for-mac-nfs-for-symfony/</guid><pubDate>Wed, 04 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;[f:id:tamakiii:20191124095441j:plain]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://qiita.com/advent-calendar/2019/symfony&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Symfony Advent Calendar 2019&lt;/code&gt;&lt;/a&gt; 3日目の記事です。&lt;/p&gt;
+&lt;p&gt;昨日は &lt;a href=&quot;https://qiita.com/polidog&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;@polidog&lt;/code&gt;&lt;/a&gt; さんの &lt;a href=&quot;https://polidog.jp/2019/12/01/symfony/&quot;&gt;「JsonSchemaBundleを作った話」&lt;/a&gt; でした。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Docker が開発環境のお供として定着したおかげでチーム内の環境差はだいぶ小さくなりました。
+しかし、Docker for Mac は APFS との相性が悪く、特に Symfony プロジェクトでの DX の悪さは悩みの種でした。&lt;/p&gt;
+&lt;p&gt;この問題の解決方法はいくつかありますが、個人的に NFS を使った方法が手間と効果のバランス上よいと思っています。
+Docker 標準機能の consistency &lt;code class=&quot;language-text&quot;&gt;delegated&lt;/code&gt; や &lt;code class=&quot;language-text&quot;&gt;cached&lt;/code&gt; もそれなりには効きますが、開発中の DX 的にはまだ不満が残ります。
+docker-sync も試してみましたが動作が安定せず解決策とはなり得ませんでした。&lt;/p&gt;
+&lt;p&gt;（他にも実は VMWare 上の Ubuntu で Docker を動かした方が &lt;code class=&quot;language-text&quot;&gt;consistent&lt;/code&gt; よりは早かったりします）&lt;/p&gt;
+&lt;p&gt;既に世に情報はだいぶ出回ってはいますが、今回は特に macOS Catalina 上で快適に動く Symfony 開発環境を docker-compose と NFS で作る方法について、私的なおすすめも交えて書きます。&lt;/p&gt;
+&lt;p&gt;長いので結論を先に書くと、ウェブのレスポンスが 2833 ms → 370ms に、&lt;code class=&quot;language-text&quot;&gt;bin/console&lt;/code&gt; の実行が最大300% ほど高速になりました。&lt;/p&gt;
+&lt;p&gt;サンプルプロジェクト&lt;/p&gt;
+&lt;p&gt;[https://github.com/tamakiii-sandbox/hello-symfony-5.0:embed:cite]&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;hr&gt;
+&lt;h2&gt;1. NFS のかんたんな説明&lt;/h2&gt;
+&lt;p&gt;NFS（Network File System）は分散ファイルシステムのひとつで、TCP/UDP で通信するサーバを立ち上げて使います。
+macOS には標準で &lt;code class=&quot;language-text&quot;&gt;nfsd&lt;/code&gt; がインストールされており、OS起動時に &lt;code class=&quot;language-text&quot;&gt;launchd&lt;/code&gt; が &lt;code class=&quot;language-text&quot;&gt;nfsd&lt;/code&gt; を立ち上げるようになっています。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;nfsd&lt;/code&gt; が起動しているかは &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;ps aux | grep /sbin/nfsd&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt; で、&lt;code class=&quot;language-text&quot;&gt;launchd&lt;/code&gt; の管理下にあるかは&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;sudo launchctl list | grep com.apple.nfs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;で、NFSサーバのマウント情報は&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;showmount -e localhost&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;で確認できます。&lt;/p&gt;
+&lt;p&gt;もしOS起動時に立ち上がらなくなってしまっていた場合は&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.nfsd.plist&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;で有効化できるはずです。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;2. ホストOSのセットアップ&lt;/h2&gt;
+&lt;p&gt;初回のみ以下の手順が必要です&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Full Disk Acccess を与える（Terminal, iTerm 等）&lt;/li&gt;
+&lt;li&gt;/etc/exports を設定する&lt;/li&gt;
+&lt;li&gt;/etc/nfs.conf を設定する&lt;/li&gt;
+&lt;li&gt;OSを再起動、もしくは nfsd を再起動する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Full Disk Acccess を与える&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;System Preferences &amp;gt; Security &amp;amp; Privacy &amp;gt; Full Disk Access&lt;/code&gt; から追加します。&lt;/p&gt;
+&lt;h3&gt;/etc/exports, /etc/nfs.conf を設定する&lt;/h3&gt;
+&lt;p&gt;Catalina から SIP（System Integrity Protection） の影響で &lt;code class=&quot;language-text&quot;&gt;/etc&lt;/code&gt; などが &lt;code class=&quot;language-text&quot;&gt;sudo&lt;/code&gt; でも書けなくなりました。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;launchd&lt;/code&gt; はユーザごとに &lt;code class=&quot;language-text&quot;&gt;~/Library/LaunchAgents/*.plist&lt;/code&gt; に設定が書けますが、root ユーザとしては実行できず &lt;code class=&quot;language-text&quot;&gt;nfsd&lt;/code&gt; が root 権限を要求するため、system の &lt;code class=&quot;language-text&quot;&gt;nfsd&lt;/code&gt; に読ませるために &lt;code class=&quot;language-text&quot;&gt;/etc&lt;/code&gt; 以下をエディタで編集する必要がありそうです。
+また同様に &lt;code class=&quot;language-text&quot;&gt;$HOME&lt;/code&gt; が NFS で export できないため、&lt;code class=&quot;language-text&quot;&gt;/System/Volumes/Users&lt;/code&gt; 以下を export するよう設定する必要があります。&lt;/p&gt;
+&lt;p&gt; &lt;code class=&quot;language-text&quot;&gt;/etc/nfs.conf&lt;/code&gt; には &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;nfs.server.mount.require_resv_port = 0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;を足し、&lt;code class=&quot;language-text&quot;&gt;/etc/exports&lt;/code&gt; には&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;echo &amp;quot;/System/Volumes/Data/Users/ -alldirs -mapall=$(id -u):$(id -g) localhost&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;を設定します。後述のスクリプトを使うと楽ができるかもしれません。&lt;/p&gt;
+&lt;p&gt;OSを再起動するか nfsd を再起動（&lt;code class=&quot;language-text&quot;&gt;sudo nfsd restart&lt;/code&gt;）したらホストOSの準備は完了です。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;showmount -e localhost&lt;/code&gt; が以下のようになっていればよいはずです。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ showmount -e localhost
+Exports list on localhost:
+/System/Volumes/Data/Users          localhost&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;h2&gt;3. プロジェクトのセットアップ&lt;/h2&gt;
+&lt;p&gt;チームで &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; を共有する際には、&lt;code class=&quot;language-text&quot;&gt;docker-compose.override.yml&lt;/code&gt; を &lt;code class=&quot;language-text&quot;&gt;.gitignore&lt;/code&gt; して override.yml で環境差を埋めるのがおすすめです。
+また、&lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 内では &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; の内容を変数として扱えるのがとても便利でこちらもおすすめです。可変でないものは &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; の &lt;code class=&quot;language-text&quot;&gt;environments&lt;/code&gt; に直接定義し、&lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; は Git の管理下から外します。&lt;/p&gt;
+&lt;p&gt;私の職場では Executable Document（もしくは Readable Shell Script）としてよく &lt;code class=&quot;language-text&quot;&gt;Makefile&lt;/code&gt; を使います。
+&lt;code class=&quot;language-text&quot;&gt;make -f dev.mk install&lt;/code&gt; すれば環境ができあがり、あとは個々の事情に合わせて必要なコマンドを叩くか &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; を編集する、といった具合が頑張りすぎず丁度よいです。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;make -f dev.mk install HTTP_PORT=8888 # &amp;lt;= 引数で環境をカスタマイズできる
+vim .env # &amp;lt;= あとからでもカスタマイズできる
+docker-compose up&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/tamakiii-sandbox/hello-symfony-5.0/blob/e94c114e4d4237f091d09aa933f0b18299b55cf8/dev.mk&quot;&gt;Makefile の例（dev.mk）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;その1： NFS 使用時と非使用時でマウント方法を合わせる&lt;/h3&gt;
+&lt;p&gt;通常は &lt;code class=&quot;language-text&quot;&gt;volumes&lt;/code&gt; でマウントしている &lt;code class=&quot;language-text&quot;&gt;.:/project&lt;/code&gt; 等を Volume として定義します。&lt;/p&gt;
+&lt;p&gt;[https://gist.github.com/017cc52c7d2b7892934743e9705a9bac:embed#gist017cc52c7d2b7892934743e9705a9bac]&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$PWD&lt;/code&gt; が WSL2 などでは使えないらしいので &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; から絶対パスを読んでセットします（&lt;code class=&quot;language-text&quot;&gt;${CURRENT_DIR}&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;このとき使えるテクニックとして &lt;code class=&quot;language-text&quot;&gt;${VARIABLE:-default}&lt;/code&gt; があります。これは &lt;code class=&quot;language-text&quot;&gt;$VARIABLE&lt;/code&gt; 非定義時に &lt;code class=&quot;language-text&quot;&gt;&amp;quot;default&amp;quot;&lt;/code&gt; として評価されるためデフォルト値の記述に使えます。&lt;/p&gt;
+&lt;h3&gt;その2： docker-compose.override.yml に NFS の設定を書く&lt;/h3&gt;
+&lt;p&gt;先程作った Volume（&lt;code class=&quot;language-text&quot;&gt;project_volume&lt;/code&gt;）の設定を上書きするだけです。&lt;code class=&quot;language-text&quot;&gt;device&lt;/code&gt; には NFS の export に合わせて &lt;code class=&quot;language-text&quot;&gt;/System/Volumes/Data/Users&lt;/code&gt; を使います（&lt;code class=&quot;language-text&quot;&gt;${CURRENT_VOLUME_DIR}&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;[https://gist.github.com/a4156de1456b0b755f83d495deb6c4b4:embed#gista4156de1456b0b755f83d495deb6c4b4]&lt;/p&gt;
+&lt;p&gt;最後に &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; を生成したら &lt;code class=&quot;language-text&quot;&gt;docker-compose config&lt;/code&gt; で設定を確認します。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;bash-3.2$ cat &amp;lt;&amp;lt;EOF &amp;gt; .env
+&amp;gt; CURRENT_DIR=$(pwd)
+&amp;gt; CURRENT_VOLUME_DIR=$(realpath $(pwd | sed &amp;#39;s|/Users|/System/Volumes/Data/Users|&amp;#39;))
+&amp;gt; EOF&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Makefile で書くと（脱線）&lt;/h4&gt;
+&lt;p&gt;これを &lt;code class=&quot;language-text&quot;&gt;Makefile&lt;/code&gt; で書くとこうなります。既にターゲットがあれば再実行されないので、カスタマイズした設定が上書きされてしまうことも防げます。
+また、パラメタライズしてあるので生成時のコマンドで出力ファイルがカスタマイズできます。&lt;/p&gt;
+&lt;p&gt;[https://gist.github.com/059d51c35c151fc9b0e976ac71dc1eb1:embed#gist059d51c35c151fc9b0e976ac71dc1eb1]&lt;/p&gt;
+&lt;p&gt;特定環境でしか使わない処理は &lt;code class=&quot;language-text&quot;&gt;macos.mk&lt;/code&gt; のように分けておくと管理しやすいかもしれません。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;make&quot;&gt;&lt;pre class=&quot;language-make&quot;&gt;&lt;code class=&quot;language-make&quot;&gt;.PHONY: all clean
+
+docker-compose.override.yml: docker/docker-compose.macos.override.yml
+    cp $&amp;lt; $@&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Docker volume の削除&lt;/h4&gt;
+&lt;p&gt;既に作成済の Docker volume は一度消して作り直す必要があります。以下のように怒られます。
+MySQL などのデータはバックアップを取った上で実行してください。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose run --rm php app/bin/console --version
+ERROR: Configuration for volume project_volume specifies &amp;quot;device&amp;quot; driver_opt :/System/Volumes/Data/Users/tamakiii/Sites/tamakiii-sandbox/hello-symfony-5.0, but a volume with the same name uses a different &amp;quot;device&amp;quot; driver_opt (/Users/tamakiii/Sites/tamakiii-sandbox/hello-symfony-5.0). If you wish to use the new configuration, please remove the existing volume &amp;quot;hello-symfony-50_project_volume&amp;quot; first:
+$ docker volume rm hello-symfony-50_project_volume&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;セットアップシェルスクリプト&lt;/h4&gt;
+&lt;p&gt;NFS のセットアップと Docker volume の再作成、Docker の再起動までしてくれるシェルスクリプトを用意しておくと便利です。
+私が実装したものが参考になれば（注意深く）使ってみてください。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[https://github.com/tamakiii-sandbox/hello-symfony-5.0/blob/b90044814507235af1ad858bd9988cc0d9f6b161/bin/setup&lt;em&gt;native&lt;/em&gt;nfs&lt;em&gt;docker&lt;/em&gt;osx.sh]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;このスクリプトは以下の記事の内容をベースに改良したものです。
+いくつか動かない箇所を直したのと、Catalina 向けに &lt;code class=&quot;language-text&quot;&gt;/etc/exports&lt;/code&gt; や &lt;code class=&quot;language-text&quot;&gt;/etc/nfs.conf&lt;/code&gt; の生成に関する処理を加えました。&lt;/p&gt;
+&lt;p&gt;[https://vivait.co.uk/labs/docker-for-mac-performance-using-nfs:embed:cite]&lt;/p&gt;
+&lt;h2&gt;4. 動作速度&lt;/h2&gt;
+&lt;p&gt;consistency を指定する方法と比べて NFS がどの程度速いか実験しました。が、細かく書くとだいぶ長くなるので（もしかしたら後日書くかもしれませんが）割愛しますが、&lt;code class=&quot;language-text&quot;&gt;bin/console debug:container&lt;/code&gt; で比較して、おおよそ &lt;code class=&quot;language-text&quot;&gt;consistent&lt;/code&gt; に比べて300%、&lt;code class=&quot;language-text&quot;&gt;delegated&lt;/code&gt; に比べて180%、&lt;code class=&quot;language-text&quot;&gt;cached&lt;/code&gt; に比べて170% ほど高速という結果になりました。&lt;/p&gt;
+&lt;p&gt;また、あまり信用にならない計測方法ですが、404 ページへのアクセスの profile 結果（Total Time）も同様の結果になりました。
+最初に NFS を導入した際の実験結果ともほぼ同様で、開発時も安定してこれくらいの速度が出ています。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;consistency&lt;/th&gt;
+&lt;th align=&quot;right&quot;&gt;初回&lt;/th&gt;
+&lt;th align=&quot;right&quot;&gt;2回目&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;language-text&quot;&gt;consistent&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;8926 ms&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;2833 ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;language-text&quot;&gt;delegated&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;3717 ms&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;976 ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;language-text&quot;&gt;cached&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;4495 ms&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;997 ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;2197 ms&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;370 ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;5. 最後に&lt;/h2&gt;
+&lt;p&gt;元々は仕事で使っている仕組みをそのまま伝えるだけの記事にする予定だったのですが、
+新しく買った16インチ MacBook Pro でサンプルプロジェクトを書き始めたら Catalina の辛いポイントがあったのでこういった記事になりました。
+皆さんの DX 改善の一助になれば幸いです。&lt;/p&gt;
+&lt;p&gt;これから少なくとも数年は開発環境構築においては仮想環境が支配的な状況が続くと思います。
+今回のような工夫ももちろん必要なんですが、強いマシンを買って富豪的に快適な開発環境を作るとやはり最高です。&lt;/p&gt;
+&lt;h2&gt;6. 検証環境&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;macOS Catalina（Version 10.15.1）
+MacBook Pro (16-inch, 2019)
+Processor: 2.3 GHz 8-Core Intel Core i9
+Memory: 64 GB 2667 MHz DDR4
+Startup: Disk Macintosh HD
+Graphics: Intel UHD Graphics 630 1536 MB&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Docker desktop community
+Version: 2.1.0.5 (40693)
+Channel: stable
+Engine: 19.03.5
+Compose: 1.24.1&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Disk image: Docker.raw
+Disk image size: 64.0 GB (16.1 GB on disk)
+CPUs: 8
+Memory: 16.0 GiB
+Swap: 4.0 GB&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[jq で特定条件にマッチする要素を置換する]]></title><description><![CDATA[こういった JSON の  の  だけを置換して全体を出力したい。 , , , ,  を駆使して実現できる。すごく雑に書くと  =>  のような配列を map…]]></description><link>http://gatsby.sandbox.tamakiii.com/2019/11/21/001343/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2019/11/21/001343/</guid><pubDate>Thu, 21 Nov 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;こういった JSON の &lt;code class=&quot;language-text&quot;&gt;.name == &amp;quot;Michel&amp;quot;&lt;/code&gt; の &lt;code class=&quot;language-text&quot;&gt;.attributes&lt;/code&gt; だけを置換して全体を出力したい。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;/tmp
+$ cat test.json
+{
+  &amp;quot;elements&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: true,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-01 00:00:00&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Michel&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: false,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-02 00:00:00&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Paul&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: false,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-31 00:00:00&amp;quot;
+      }
+    }
+  ]
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;map()&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;select()&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;|=&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;//&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; を駆使して実現できる。すごく雑に書くと&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;map()&lt;/code&gt; =&gt; &lt;code class=&quot;language-text&quot;&gt;.elements[]&lt;/code&gt; のような配列を map() する&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;select()&lt;/code&gt; =&gt; 条件に一致するものだけフィルタする&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;//&lt;/code&gt; =&gt; &lt;code class=&quot;language-text&quot;&gt;a // b&lt;/code&gt; で &lt;code class=&quot;language-text&quot;&gt;a ? a : b&lt;/code&gt; と評価される演算子&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; =&gt; イテレートしている要素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;キモは &lt;code class=&quot;language-text&quot;&gt;//&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A filter of the form a // b produces the same results as a, if a produces results other than false and null. Otherwise, a // b produces the same results as b.&lt;/p&gt;
+&lt;p&gt;This is useful for providing defaults: .foo // 1 will evaluate to 1 if there’s no .foo element in the input. It’s similar to how or is sometimes used in Python (jq’s or operator is reserved for strictly Boolean operations).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[https://stedolan.github.io/jq/manual/#Alternativeoperator://:embed:cite]&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;これらは以下の様に組み合わせて使う。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;# 条件にマッチしない場合 `.` (=`.attributes`) に置換する（≒何もしない）
+/tmp
+$ cat test.json | jq &amp;#39;.elements |= map((select(0)) // .)&amp;#39;
+{
+  &amp;quot;elements&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: true,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-01 00:00:00&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Michel&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: false,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-02 00:00:00&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Paul&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: false,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-31 00:00:00&amp;quot;
+      }
+    }
+  ]
+}
+
+# 条件にマッチする場合 `elements[].attributes` を `[]` に置換する
+/tmp
+$ cat test.json | jq &amp;#39;.elements |= map((select(1).attributes |= []) // .)&amp;#39;
+{
+  &amp;quot;elements&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;,
+      &amp;quot;attributes&amp;quot;: []
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Michel&amp;quot;,
+      &amp;quot;attributes&amp;quot;: []
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Paul&amp;quot;,
+      &amp;quot;attributes&amp;quot;: []
+    }
+  ]
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;そして特定条件時のみ &lt;code class=&quot;language-text&quot;&gt;.attributes&lt;/code&gt; を置換する&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;/tmp
+$ cat test.json | jq &amp;#39;.elements |= map((select(.name == &amp;quot;Michel&amp;quot;).attributes |= { private: true, last_login: &amp;quot;2222-22-22 22:22:22&amp;quot;}) // .)&amp;#39;
+{
+  &amp;quot;elements&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: true,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-01 00:00:00&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Michel&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: true,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2222-22-22 22:22:22&amp;quot;
+      }
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;Paul&amp;quot;,
+      &amp;quot;attributes&amp;quot;: {
+        &amp;quot;private&amp;quot;: false,
+        &amp;quot;last_login&amp;quot;: &amp;quot;2019-11-31 00:00:00&amp;quot;
+      }
+    }
+  ]
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;202X年もシェル芸は身を助けてくれそうです&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Selenium IDE は for each したりできるよ]]></title><description><![CDATA[ウェブブラウザのオートメーションツール Selenium には、Google Chrome / Mozilla Firefox のプラグインとして動く、最近開発が活発な Selenium IDE というものがあります。 その Selenium IDE…]]></description><link>http://gatsby.sandbox.tamakiii.com/2019/11/21/003524/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2019/11/21/003524/</guid><pubDate>Thu, 21 Nov 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;ウェブブラウザのオートメーションツール Selenium には、Google Chrome / Mozilla Firefox のプラグインとして動く、最近開発が活発な Selenium IDE というものがあります。&lt;/p&gt;
+&lt;p&gt;その Selenium IDE には &lt;code class=&quot;language-text&quot;&gt;conditional logic and looping&lt;/code&gt; を実現する &lt;code class=&quot;language-text&quot;&gt;Control Flow&lt;/code&gt; と呼ばれる機能があります。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Selenium IDE comes with commands that enable you to add conditional logic and looping to your tests.
+This enables you to execute commands (or a set of commands) only when certain conditions in your application are met, or execute command(s) repeatedly based on pre-defined criteria.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[https://docs.seleniumhq.org/selenium-ide/docs/en/introduction/control-flow/:embed:cite]&lt;/p&gt;
+&lt;p&gt;何かと言うと &lt;code class=&quot;language-text&quot;&gt;if&lt;/code&gt; とか &lt;code class=&quot;language-text&quot;&gt;for each&lt;/code&gt; とか書けるよって話なんですが、まぁ当然 JavaScript の実行結果をイテレートできます。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;JavaScript Expressions&lt;/strong&gt;
+Conditions in your application are checked by using JavaScript expressions.
+You can use the execute script or execute async script commands to run a snippet of JavaScript at any point during your test and store the result in a variable. These variables can be used in a control flow command.
+You can also use JavaScript expressions directly in the control flow commands.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;コツは &lt;code class=&quot;language-text&quot;&gt;execute script&lt;/code&gt; の、 &lt;code class=&quot;language-text&quot;&gt;Target&lt;/code&gt; には &lt;code class=&quot;language-text&quot;&gt;return&lt;/code&gt; 式を、&lt;code class=&quot;language-text&quot;&gt;Value&lt;/code&gt; には格納先変数を書き、変数を &lt;code class=&quot;language-text&quot;&gt;${}&lt;/code&gt; で展開すること、くらいでしょうか。&lt;/p&gt;
+&lt;figure class=&quot;figure-image figure-image-fotolife&quot; title=&quot;Selenium IDE なるほどですね&quot;&gt;[f:id:tamakiii:20191121002629p:plain]&lt;figcaption&gt;Selenium IDE なるほどですね&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;もっとリッチなエディタがあれば RPA できそうですが（＝Microsoft Power Automate に期待してます）、これだけでも人間が学習すればある程度使えそうです。実行環境を用意するのだけ面倒くさそう。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[macOSX 向け dotfiles を Github Actions でテストする]]></title><description><![CDATA[macOS 環境が無料で CI が回せる時代になりましたね。16インチ MacBook Pro を買ったこともあって GitHub Actions で macOS 向け dotfiles…]]></description><link>http://gatsby.sandbox.tamakiii.com/2019/11/21/213847/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2019/11/21/213847/</guid><pubDate>Thu, 21 Nov 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;macOS 環境が無料で CI が回せる時代になりましたね。16インチ MacBook Pro を買ったこともあって GitHub Actions で macOS 向け dotfiles をテスト＆見直ししてみました。
+案の定動かない処理もあったりして、やはりテストを定常的に回すのは効くなと思い知らされましたが、それにもいくつかハマりどころがあったので書いておこうと思います。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;環境構築スクリプトを育てていると、どうしても今のPCの環境には適用できるけれど実は新規PCには適用できなくなっているということは起きてしまいます。まっさらな状態からセットアップすることはめったにありませんからね。具体的にはディレクトリのないところにsymlinkを貼るとか、セットアップの前の方で入れているツールを後の方で使っているのだけどPATHが通っていないとか、そういうケースです。&lt;/p&gt;
+&lt;p&gt;そこでCIを回しましょうという話です。最近、GitHub Actionsのmacos-latestでCIを回すようになりました。実際にCIを回したら、必要なディレクトリを作るのを忘れていたり、諸々通らないことが発覚しました。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[https://itchyny.hatenablog.com/entry/2019/11/18/120000:embed:cite]&lt;/p&gt;
+&lt;p&gt;現状の設定ファイルを先に貼っておくと、こうなりました。&lt;/p&gt;
+&lt;p&gt;[https://gist.github.com/19c3748e2e4917c2f13d26dc4b71cda6:embed#gist19c3748e2e4917c2f13d26dc4b71cda6]&lt;/p&gt;
+&lt;p&gt;リポジトリと作業の様子はこちらです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/tamakiii/dotfiles/tree/6fd099b57646a69fb0ffb44fba541b9464b1c1ec&quot;&gt;https://github.com/tamakiii/dotfiles/tree/6fd099b57646a69fb0ffb44fba541b9464b1c1ec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/tamakiii/dotfiles/pull/9&quot;&gt;https://github.com/tamakiii/dotfiles/pull/9&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;1. GitHub 上で YAML ファイルを initialize する&lt;/h2&gt;
+&lt;p&gt;[f:id:tamakiii:20191121211312p:plain]&lt;/p&gt;
+&lt;p&gt;画面上から YAML ファイルが作れて PR も作れます。とりあえず PR を作ればテンションが上がるのでとりあえず作るといいと思います。
+自分は &lt;code class=&quot;language-text&quot;&gt;Set up a workflow yourself&lt;/code&gt; から始めました。&lt;/p&gt;
+&lt;p&gt;[https://help.github.com/ja/actions/automating-your-workflow-with-github-actions/about-github-actions:embed:cite]&lt;/p&gt;
+&lt;h2&gt;2. デフォルトで HomeBrew やいくつかのパッケージがインストールされている&lt;/h2&gt;
+&lt;p&gt;これは dotfiles をテストする目的ではあまり嬉しくないことですが、デフォルトで HomeBrew や git, node などがインストールされていました。
+ちょっと困ったのが、Brewfile で &lt;code class=&quot;language-text&quot;&gt;brew node&lt;/code&gt; をインストールさせたい場合、&lt;code class=&quot;language-text&quot;&gt;brew node@12&lt;/code&gt; と &lt;code class=&quot;language-text&quot;&gt;brew @node13&lt;/code&gt; が衝突してコケてしまいました。
+これはメインのスクリプトを動かす前にデフォルトでインストールされている node をアンインストールすることで回避しました。（&lt;code class=&quot;language-text&quot;&gt;brew uninstall node@12&lt;/code&gt;）&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;==&amp;gt; Downloading https://homebrew.bintray.com/bottles/node-13.1.0.catalina.bottle.tar.gz
+==&amp;gt; Downloading from https://akamai.bintray.com/58/5863d08b039c44d35a8343179cf93d495e1288efe2c669ccb77704a236e0e17b?__gda__=exp=1574272109~hmac=9967f775a1b5093bc37183b749e04921790fe0894fdec9d213efacd13b9c6ac8&amp;amp;response-content-disposition=attachment%3Bfilename%3D%22node-13.1.0.catalina.bottle.tar.gz%22&amp;amp;response-content-type=application%2Fgzip&amp;amp;requestInfo=U2FsdGVkX1-HgyW49y3C7roMUH2e6Ay__vYCfMAjNkaXbnNPwYSBlYuywDo6KSDP77-xzhgl2poWSbWyOqlhQXdPRm-Heaa85s3o5DAWzDspCV12Yu3lCCUO08p1ocfNZMtoImL1AsiYZ7xjt1rbgQ&amp;amp;response-X-Checksum-Sha1=7352019f912696f10f9cf7feaaad9c0e2666894f&amp;amp;response-X-Checksum-Sha2=5863d08b039c44d35a8343179cf93d495e1288efe2c669ccb77704a236e0e17b
+==&amp;gt; Pouring node-13.1.0.catalina.bottle.tar.gz
+Error: The `brew link` step did not complete successfully
+The formula built, but is not symlinked into /usr/local
+Could not symlink bin/node
+Target /usr/local/bin/node
+is a symlink belonging to node@12. You can unlink it:
+  brew unlink node@12
+
+To force the link and overwrite all conflicting files:
+  brew link --overwrite node
+
+To list all files that would be deleted:
+  brew link --overwrite --dry-run node
+
+Possible conflicting files are:
+/usr/local/bin/node -&amp;gt; /usr/local/Cellar/node@12/12.13.0/bin/node&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;3. キャッシュの有効サイズは 400MB&lt;/h2&gt;
+&lt;p&gt;ライフサイクルはこのようになっているので、Workflow が成功するまではキャッシュが有効になりません。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ロックファイルからキャッシュキーを生成する（今回は &lt;code class=&quot;language-text&quot;&gt;${{ hashFiles(&amp;#39;Brewfile&amp;#39;) }}&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;キャッシュキーからキャッシュの有無を探す&lt;/li&gt;
+&lt;li&gt;Workflow が成功したらポストプロセスが動いてキャッシュを圧縮して保存する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;またキャッシュされる最大サイズは 400MB で、これを超えるとポストプロセスでキャッシュが保存されなくなります。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;/usr/bin/tar -cz -f /Users/runner/runners/2.160.2/work/_temp/430ca3b6-c547-4cda-ae16-a5e6e998894c/cache.tgz -C /usr/local/Cellar .
+##[warning]Cache size of ~722 MB (757155145 B) is over the 400MB limit, not saving cache.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;HomeBrew の場合、キャッシュ対象はざっと見た感じ2つあり、ひとつが &lt;code class=&quot;language-text&quot;&gt;$(brew --cache)/downloads&lt;/code&gt; = &lt;code class=&quot;language-text&quot;&gt;~/Library/Caches/Homebrew/downloads&lt;/code&gt;、もうひとつが &lt;code class=&quot;language-text&quot;&gt;/usr/local/Cellar&lt;/code&gt; です。
+前者は install プロセスはスキップできませんが、download プロセスがスキップできます。ただし、40行ほどの内容でも 900MB 近くなってしまったため、post プロセスで保存される前にファイルサイズの大きいものから10件ほど削除することでキャッシュを効かせました。&lt;/p&gt;
+&lt;p&gt;[https://gist.github.com/tamakiii/9f06da5772b20bf514219a6136eb6238:embed:cite]&lt;/p&gt;
+&lt;p&gt;後者の &lt;code class=&quot;language-text&quot;&gt;/usr/local/Cellar&lt;/code&gt; なら 400MB を下回ってくれるのでは、と思いましたがこれも 700MB 超えでそのままではキャッシュに乗りませんでした。
+キャッシュを効かせても Workflow ごとに5分ほどの実行時間を要しているので、あまりキャッシュは有効に使えなそうな雰囲気があります。&lt;/p&gt;
+&lt;h2&gt;4. brew install が &lt;code class=&quot;language-text&quot;&gt;Host key verification failed.&lt;/code&gt; で死ぬ&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;main.yml&lt;/code&gt; から &lt;code class=&quot;language-text&quot;&gt;make -f brew.mk&lt;/code&gt; を叩き、&lt;code class=&quot;language-text&quot;&gt;brew.mk&lt;/code&gt; 内で &lt;code class=&quot;language-text&quot;&gt;brew install&lt;/code&gt; している場合は問題なく動くのですが、&lt;code class=&quot;language-text&quot;&gt;main.yml&lt;/code&gt; と &lt;code class=&quot;language-text&quot;&gt;make -f brew.mk&lt;/code&gt; の間にひとつシェルスクリプトや Makefile を挟むだけで &lt;code class=&quot;language-text&quot;&gt;Host key verification failed.&lt;/code&gt; &lt;code class=&quot;language-text&quot;&gt;fatal: Could not read from remote repository.&lt;/code&gt; で死ぬようになりました。
+具体的なドキュメントは出てきませんでしたが、おそらくセキュリティ上の都合だと思われます。
+解決策はなかったので諦めて間に何も挟まない形にしました。&lt;code class=&quot;language-text&quot;&gt;ci.mk&lt;/code&gt; と実機で叩くセットアップスクリプトを近い形にしておきたかったんですが、まぁ致し方ないです。&lt;/p&gt;
+&lt;p&gt;[https://github.com/actions/:embed:cite]&lt;/p&gt;</content:encoded></item><item><title><![CDATA[man したい alpine ワンライナー]]></title><description><![CDATA[macOS と Linux を跨って使うような Shell Script や Makefile を書く際に、オプションなど挙動の差をどう解決するか考えることがよくある。
+そんなときにサクっと alpine を Docker で立ち上げて man…]]></description><link>http://gatsby.sandbox.tamakiii.com/alpine-docker-oneliner-for-man/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/alpine-docker-oneliner-for-man/</guid><pubDate>Sat, 12 Oct 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;macOS と Linux を跨って使うような Shell Script や Makefile を書く際に、オプションなど挙動の差をどう解決するか考えることがよくある。
+そんなときにサクっと alpine を Docker で立ち上げて man を見るのに使えるワンライナーのメモです。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;docker run --rm -it alpine ash -c &amp;#39;apk add --update --no-cache man man-pages coreutils-doc &amp;amp;&amp;amp; ash&amp;#39;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;PAGER=less&lt;/code&gt; の方が慣れてるのであれば&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;docker run --rm -it -e PAGER=less alpine ash -c &amp;#39;apk add --update --no-cache man man-pages coreutils-doc &amp;amp;&amp;amp; ash&amp;#39;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;alpine も他 Linuix ディストリビューションとちょいちょい動き違ったりするんですが、最近 alpine びいきなので（まぁ）。&lt;/p&gt;
+&lt;p&gt;[http://linuxcommand.sourceforge.net/lc3&lt;em&gt;man&lt;/em&gt;pages/man1.html:embed:cite]&lt;/p&gt;
+&lt;p&gt;[https://wiki.alpinelinux.org/wiki/How&lt;em&gt;to&lt;/em&gt;get&lt;em&gt;regular&lt;/em&gt;stuff_working:embed:cite]&lt;/p&gt;
+&lt;p&gt;[https://linuxjm.osdn.jp/html/LDP_man-pages/man7/man-pages.7.html:embed:cite]&lt;/p&gt;
+&lt;p&gt;[https://pkgs.alpinelinux.org/contents?branch=edge&amp;#x26;name=coreutils&amp;#x26;arch=armhf&amp;#x26;repo=main:embed:cite]&lt;/p&gt;</content:encoded></item><item><title><![CDATA[MySQL on Docker で MySQL init process failed.]]></title><description><![CDATA[以前、環境変数  が悪さをするバグがあったらしいけど既に解消済みらしい。 https://github.com/docker-library/mysql/issues/82:title 開発時にいちいちホストOS…]]></description><link>http://gatsby.sandbox.tamakiii.com/2019/09/16/193548/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2019/09/16/193548/</guid><pubDate>Mon, 16 Sep 2019 00:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ docker-compose up
+...
+mysql_1  | MySQL init process in progress...
+mysql_1  | MySQL init process in progress...
+mysql_1  | MySQL init process in progress...
+mysql_1  | MySQL init process in progress...
+mysql_1  | MySQL init process in progress...
+mysql_1  | MySQL init process failed.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;以前、環境変数 &lt;code class=&quot;language-text&quot;&gt;MYSQL_HOST&lt;/code&gt; が悪さをするバグがあったらしいけど既に解消済みらしい。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[https://github.com/docker-library/mysql/issues/82:title]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;開発時にいちいちホストOS からパスワードを入力してログインするのが面倒で &lt;code class=&quot;language-text&quot;&gt;/etc/mysql/conf.d/mylogin.cnf&lt;/code&gt; にこんな設定を書いていた&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;[client]
+password=&amp;quot;pass&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;MySQL コンテナの初期化時に &lt;code class=&quot;language-text&quot;&gt;[client]&lt;/code&gt; が書かれていると &lt;code class=&quot;language-text&quot;&gt;init process filad.&lt;/code&gt; で落ちるのは既知の問題らしい（まぁそりゃそうだ）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[https://github.com/docker-library/mysql/issues/251:title]&lt;/li&gt;
+&lt;li&gt;[https://github.com/docker-library/mysql/issues/82:title]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;パスワードを簡単にするのでもいいけど、&lt;code class=&quot;language-text&quot;&gt;~/.my.cnf&lt;/code&gt; は初期化プロセスに関係しないらしいので置き場所を変えてやればいい。root なのはご愛嬌&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;diff&quot;&gt;&lt;pre class=&quot;language-diff&quot;&gt;&lt;code class=&quot;language-diff&quot;&gt;$ git diff docker-compose.yml
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 1d974da..b09d973 100644
+&lt;span class=&quot;token coord&quot;&gt;--- a/docker-compose.yml&lt;/span&gt;
+&lt;span class=&quot;token coord&quot;&gt;+++ b/docker-compose.yml&lt;/span&gt;
+@@ -32,7 +32,7 @@ services:
+&lt;span class=&quot;token unchanged&quot;&gt;       TZ: Asia/Tokyo
+     volumes:
+       - .:/project:delegated
+&lt;/span&gt;&lt;span class=&quot;token deleted-sign deleted&quot;&gt;-      - ./docker/mysql/conf.d/mylogin.cnf:/etc/mysql/conf.d/mylogin.cnf
+&lt;/span&gt;&lt;span class=&quot;token inserted-sign inserted&quot;&gt;+      - ./docker/mysql/my.cnf:/root/.my.cnf
+&lt;/span&gt;&lt;span class=&quot;token unchanged&quot;&gt;       - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+       - mysql:/var/lib/mysql
+     security_opt:&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;データボリュームの初期化はこう&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;docker-compose down --volumes mysql&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;init process するスクリプトの本体はこの辺
+[https://github.com/docker-library/mysql/blob/333935aa6612376d58737a8cab0e3f5df370585a/8.0/docker-entrypoint.sh:embed:cite]&lt;/p&gt;
+&lt;p&gt;他にもタイムアウト伸ばしたら？とか、メモリ足りないんじゃない？とかいう話もある&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[https://github.com/docker-library/mysql/issues/251#issuecomment-414799052:title]&lt;/li&gt;
+&lt;li&gt;[https://github.com/docker-library/mysql/issues/82#issuecomment-204200553:title]&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Amazon Linux 2 on Amazon Workspaces]]></title><description><![CDATA[https://twitter.com/tamakiii/status/1011966260584726528 手順は classmethod の記事を見つつポチポチと。
+メールが届くまで20分ほどかかるのと、パスワードポリシーに合っていないと気づきにくい点だけアレ
+https…]]></description><link>http://gatsby.sandbox.tamakiii.com/2018/06/27/224308/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/2018/06/27/224308/</guid><pubDate>Wed, 27 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://twitter.com/tamakiii/status/1011966260584726528&quot;&gt;https://twitter.com/tamakiii/status/1011966260584726528&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;手順は classmethod の記事を見つつポチポチと。
+メールが届くまで20分ほどかかるのと、パスワードポリシーに合っていないと気づきにくい点だけアレ
+&lt;a href=&quot;https://dev.classmethod.jp/cloud/aws/amazon-linux-workspaces/&quot;&gt;https://dev.classmethod.jp/cloud/aws/amazon-linux-workspaces/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;動いたの図
+[f:id:tamakiii:20180627224015p:plain]&lt;/p&gt;
+&lt;p&gt;Google Chrome のインストールは yum で
+&lt;a href=&quot;https://intoli.com/blog/installing-google-chrome-on-centos&quot;&gt;https://intoli.com/blog/installing-google-chrome-on-centos&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;まだ全然手に馴染んでないけどキーボードの設定
+[f:id:tamakiii:20180627224004p:plain]
+[f:id:tamakiii:20180627224023p:plain]
+[f:id:tamakiii:20180627224201p:plain]&lt;/p&gt;
+&lt;p&gt;[https://twitter.com/tamakiii/status/1011966531654176768:embed]&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ajito.fm/23 を聴いて：「学びの話」「講演の話」]]></title><description><![CDATA[ajito.fm は VOYAGE GROUP の社内バー AJITO の名を冠したテック系 Podcast です。 今週公開された最新話の23回では、テストの伝道師で講演者としても知られる @t_wada…]]></description><link>http://gatsby.sandbox.tamakiii.com/ajitofm-23/</link><guid isPermaLink="false">http://gatsby.sandbox.tamakiii.com/ajitofm-23/</guid><pubDate>Sat, 21 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://ajito.fm&quot;&gt;ajito.fm&lt;/a&gt; は &lt;a href=&quot;https://voyagegroup.com/&quot;&gt;VOYAGE GROUP&lt;/a&gt; の社内バー AJITO の名を冠したテック系 Podcast です。&lt;/p&gt;
+&lt;p&gt;今週公開された最新話の23回では、テストの伝道師で講演者としても知られる &lt;a href=&quot;https://twitter.com/t_wada&quot;&gt;@t_wada&lt;/a&gt; さんが、プレゼンテーションや講演の作り方などについて話されていました。
+こんなに価値のある情報を開けっ広げにしていいのか？！と思える内容だったので、個人的にその内容を文字起こししてみました。&lt;/p&gt;
+&lt;p&gt;（t_wada さんは既に何度かご登場されていて、金言がバンバン出るのは毎回なのですが。ぜひ過去回も聴いてみてください）&lt;/p&gt;
+&lt;p&gt;[https://ajito.fm/23/:embed:cite]&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;目次&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Well uncritical so misled&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学びの話&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;this is very interesting&lt;/li&gt;
+&lt;li&gt;新入社員研修&lt;/li&gt;
+&lt;li&gt;t_wada さんの学び方の変化&lt;/li&gt;
+&lt;li&gt;「教える」ことから得られる学びは多い&lt;/li&gt;
+&lt;li&gt;「教える」を避けるのはもったいない&lt;/li&gt;
+&lt;li&gt;類似の情報であっても情報発信には価値がある&lt;/li&gt;
+&lt;li&gt;「ゴミエントリー」にしない工夫&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Goodness much until that fluid owl&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;講演の話&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「技術選定の審美眼」&lt;/li&gt;
+&lt;li&gt;講演の準備／資料の作り方とコツ&lt;/li&gt;
+&lt;li&gt;プレゼンテーションの基本&lt;/li&gt;
+&lt;li&gt;聴く人の明日がどう変わるかに力を込めろ&lt;/li&gt;
+&lt;li&gt;「PHP7 で堅牢なコードを書く」&lt;/li&gt;
+&lt;li&gt;「PHP7 で堅牢なコードを書く」の作り方&lt;/li&gt;
+&lt;li&gt;講演のコツ&lt;/li&gt;
+&lt;li&gt;資料が独り歩きを始めても講演の目標が達成できるかまで考えたい&lt;/li&gt;
+&lt;li&gt;「技術力の審美眼」は直前まで名前や構成を練ることに時間を使った&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;When she reached the first hills of the &lt;strong&gt;Italic Mountains&lt;/strong&gt;, she had a last
-view back on the skyline of her hometown &lt;em&gt;Bookmarksgrove&lt;/em&gt;, the headline of
-&lt;a href=&quot;http://google.com&quot;&gt;Alphabet Village&lt;/a&gt; and the subline of her own road, the Line
-Lane. Pityful a rhetoric question ran over her cheek, then she continued her
-way. On her way she met a copy.&lt;/p&gt;
-&lt;h3&gt;Overlaid the jeepers uselessly much excluding&lt;/h3&gt;
-&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
-few insidious Copy Writers ambushed her, made her drunk with
-&lt;a href=&quot;http://google.com&quot;&gt;Longe and Parole&lt;/a&gt; and dragged her into their agency, where
-they abused her for their projects again and again. And if she hasn’t been
-rewritten, then they are still using her.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;It is a paradisematic country, in which roasted parts of sentences fly into your
-mouth. Even the all-powerful Pointing has no control about the blind texts it is
-an almost unorthographic life One day however a small line of blind text by the
-name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-&lt;h3&gt;According a funnily until pre-set or arrogant well cheerful&lt;/h3&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
-Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
-didn’t listen. She packed her seven versalia, put her initial into the belt and
-made herself on the way.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;So baboon this&lt;/li&gt;
-&lt;li&gt;Mounted militant weasel gregariously admonishingly straightly hey&lt;/li&gt;
-&lt;li&gt;Dear foresaw hungry and much some overhung&lt;/li&gt;
-&lt;li&gt;Rash opossum less because less some amid besides yikes jeepers frenetic
-impassive fruitlessly shut&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view
-back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet
-Village and the subline of her own road, the Line Lane. Pityful a rhetoric
-question ran over her cheek, then she continued her way. On her way she met a
-copy.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
-been rewritten a thousand times and everything that was left from its origin
-would be the word “and” and the Little Blind Text should turn around and
-return to its own, safe country.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
-few insidious Copy Writers ambushed her, made her drunk with Longe and Parole
-and dragged her into their agency, where they abused her for their projects
-again and again. And if she hasn’t been rewritten, then they are still using
-her. Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts.&lt;/p&gt;
-&lt;h4&gt;Silent delightfully including because before one up barring chameleon&lt;/h4&gt;
-&lt;p&gt;Separated they live in Bookmarksgrove right at the coast of the Semantics, a
-large language ocean. A small river named Duden flows by their place and
-supplies it with the necessary regelialia. It is a paradisematic country, in
-which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an
-almost unorthographic life One day however a small line of blind text by the
-name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox
-advised her not to do so, because there were thousands of bad Commas, wild
-Question Marks and devious Semikoli, but the Little Blind Text didn’t listen.&lt;/p&gt;
-&lt;h5&gt;Wherever far wow thus a squirrel raccoon jeez jaguar this from along&lt;/h5&gt;
-&lt;p&gt;She packed her seven versalia, put her initial into the belt and made herself on
-the way. When she reached the first hills of the Italic Mountains, she had a
-last view back on the skyline of her hometown Bookmarksgrove, the headline of
-Alphabet Village and the subline of her own road, the Line Lane. Pityful a
-rhetoric question ran over her cheek, then she continued her way. On her way she
-met a copy.&lt;/p&gt;
-&lt;h6&gt;Slapped cozy a that lightheartedly and far&lt;/h6&gt;
-&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
-been rewritten a thousand times and everything that was left from its origin
-would be the word “and” and the Little Blind Text should turn around and return
-to its own, safe country. But nothing the copy said could convince her and so it
-didn’t take long until a few insidious Copy Writers ambushed her, made her drunk
-with Longe and Parole and dragged her into their agency, where they abused her
-for their projects again and again.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[My Second Post!]]></title><description><![CDATA[Wow! I love blogging so much already. Did you know that “despite its name, salted duck eggs can also be made from
-chicken eggs, though the…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/my-second-post/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/my-second-post/</guid><pubDate>Wed, 06 May 2015 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Wow! I love blogging so much already.&lt;/p&gt;
-&lt;p&gt;Did you know that “despite its name, salted duck eggs can also be made from
-chicken eggs, though the taste and texture will be somewhat different, and the
-egg yolk will be less rich.”?
-(&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;Wikipedia Link&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;Yeah, I didn’t either.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Hello World]]></title><description><![CDATA[This is my first post on my new fake blog! How exciting! I’m sure I’ll write a lot more interesting things in the future. Oh, and here’s a…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/hello-world/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/hello-world/</guid><pubDate>Fri, 01 May 2015 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;This is my first post on my new fake blog! How exciting!&lt;/p&gt;
-&lt;p&gt;I’m sure I’ll write a lot more interesting things in the future.&lt;/p&gt;
-&lt;p&gt;Oh, and here’s a great quote from this Wikipedia on
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;salted duck eggs&lt;/a&gt;.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;A salted duck egg is a Chinese preserved food product made by soaking duck
-eggs in brine, or packing each egg in damp, salted charcoal. In Asian
-supermarkets, these eggs are sometimes sold covered in a thick layer of salted
-charcoal paste. The eggs may also be sold with the salted paste removed,
-wrapped in plastic, and vacuum packed. From the salt curing process, the
-salted duck eggs have a briny aroma, a gelatin-like egg white and a
-firm-textured, round yolk that is bright orange-red in color.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEEBf/aAAwDAQACEAMQAAABgik0dXC//8QAGRABAAMBAQAAAAAAAAAAAAAAAQACEhEy/9oACAEBAAEFAkqW2DlnRj73yf/EABcRAQADAAAAAAAAAAAAAAAAAAAREkH/2gAIAQMBAT8B1WX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQL/2gAIAQIBAT8Bi6f/xAAbEAABBAMAAAAAAAAAAAAAAAAAAQIRISIxMv/aAAgBAQAGPwK9GNocyS8hCj//xAAbEAADAQADAQAAAAAAAAAAAAABESEAMUGBof/aAAgBAQABPyGxNMfrLHmCDZmAzzvJJDjEQCHv/9oADAMBAAIAAwAAABDIL//EABYRAQEBAAAAAAAAAAAAAAAAAAERAP/aAAgBAwEBPxARhylZv//EABgRAAIDAAAAAAAAAAAAAAAAAAABESFR/9oACAECAQE/EFoktI//xAAdEAEBAAICAwEAAAAAAAAAAAABEQAxIWFBcYHh/9oACAEBAAE/EEbMLQ0fMHDVaPIXyI4pk4JUnWacNCtO8ojDE9TGIYES7/Jn/9k=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Chinese Salty Egg&quot;
-        title=&quot;Chinese Salty Egg&quot;
-        src=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/1c72d/salty_egg.jpg&quot;
-        srcset=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/a80bd/salty_egg.jpg 148w,
-/static/8058f3f26913fea3b6a89a73344fe94a/1c91a/salty_egg.jpg 295w,
-/static/8058f3f26913fea3b6a89a73344fe94a/1c72d/salty_egg.jpg 590w,
-/static/8058f3f26913fea3b6a89a73344fe94a/a8a14/salty_egg.jpg 885w,
-/static/8058f3f26913fea3b6a89a73344fe94a/fbd2c/salty_egg.jpg 1180w,
-/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg 2048w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;過去回&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;リンク&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;学びの話&lt;/h2&gt;
+&lt;h3&gt;新入社員向研修&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;春は新人研修の公演依頼をされることが多い&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一番多いのはプログラマ、エンジニアとしての心構え&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;「勉強の学び方を学ぶ」みたいなメタな話&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;プログラマ・エンジニアとして生きる＝「ずっと勉強し続ける」ということ&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自由になる時間は年々減って行く&lt;/li&gt;
+&lt;li&gt;学習自体を効率化できないと自分が積んでしまう時がやってくる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;どうやって効率的に学びを続けて行くか？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;メタな視点だと「勉強の仕方を勉強する」&lt;/li&gt;
+&lt;li&gt;教育学とかにヒントがある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;t_wada さんの学び方の変化&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;「フィードバックサイクルをうまく構築して回せれば学びは上手く行く」&lt;/strong&gt; と経験的に気づいた&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;アウトプットするとインプットがよりやってくる&lt;/li&gt;
+&lt;li&gt;ブログ記事を書くとインプットがやってくる&lt;/li&gt;
+&lt;li&gt;勉強会で発表すると、次のインプットやアウトプットに繋がって回って行く&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;世の中に出て発表とかを始めたら、それが自分の勉強になることに気づいた&lt;/li&gt;
+&lt;li&gt;経験的に学んだことを整理して「こうするとうまく学びが回るかもしれないよ」ということをやっている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;「教える」ことから得られる学びは多い&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;WEB+DB PRESS Vol.102 でペアプロの記事を書いた&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ペアプロで経験や技能の差があるとき、上の人にメリットはあるか？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;すごくある。 &lt;strong&gt;教えてる側の方がずっと学んでる&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;「教えることは最大の学びである」色んな人が言っている（ファインマンさんとか）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;再整理してリフレーズしないと教えられない&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自分の知識の整理になる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大学受験のテクニックの一つ＝「塾の講師のアルバイトをする」&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;知識が体系化されて再整理される&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[http://gihyo.jp/magazine/wdpress/archive/2018/vol102:embed:cite]
+[asin:4006030053:detail]&lt;/p&gt;
+&lt;h3&gt;「教える」を避けるのはもったいない&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;“教える” と言うと「上から目線になっちゃう」と考えちゃいがち&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自分が分かること／知ってることを、話すとか、伝えるとかでいい&lt;/li&gt;
+&lt;li&gt;ブログエントリーでもいいし、Qiitaのエントリーでもいいし&lt;/li&gt;
+&lt;li&gt;自分の言葉でアウトプットしてみる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;「自分は教える立場にないレベルにない」という感情をセーブしたり捨てるのが大事&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;実は自分が一番勉強になってるじゃん、というのを体験してほしい&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;自己評価の不思議な低さみたいなものは、アウトプットとインプットのループが回らないので勿体無いなぁと思っている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;類似の情報であっても情報発信には価値がある&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;類似の情報があっても今日情報発信することには価値がある&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ある OSS の作者が ver.1.0 のリリース時にブログ記事を書いたとする&lt;/li&gt;
+&lt;li&gt;「何故作ったのか」「何を解こうとしているのか」とか、“なぜなに” は当人しか書けないかもしれない&lt;/li&gt;
+&lt;li&gt;もしそれが4年前のブログエントリーだったりとかしたら、いまこれ動くのか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;現代のソフトウェアを構成しているコンポーネントの数は多いので端々から壊れて行く&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;皆が再体験するのではなく、小さな地雷みたいなのを除去してゆくエントリーには価値がある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;論文の世界ではやっぱり新規性が大事。工学や実学の世界では実用性が大事。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;もちろん、エンジニアリングの世界であっても一番先に情報を出すのは尊い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;「今日では別の要素が出てきたので有用ではありません」という内容も有用&lt;/li&gt;
+&lt;li&gt;なので &lt;strong&gt;類似の情報であっても、それを世に出すことに後ろ向きにならないで欲しい&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;「ゴミエントリー」にしない工夫&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;エントリーの信頼性を高めるには情報の抑え方が重要&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;例えば&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;詳細はむしろ省略しないで記す&lt;/li&gt;
+&lt;li&gt;バージョン情報を明記する&lt;/li&gt;
+&lt;li&gt;ひとつひとつの再現可能性を意識する&lt;/li&gt;
+&lt;li&gt;再現可能なステップを意識する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;講演の話&lt;/h2&gt;
+&lt;h3&gt;「技術選定の審美眼」&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;t_wada さんは、講演者としては再演の多い講演者&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;コミュニティでやったものの再演依頼が多い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新作の題材の決め方&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;どんなテーマのイベントかとか、ある程度の方向性がある&lt;/li&gt;
+&lt;li&gt;自分の持ってること、話したいこと、テーマの整合性を付けつつ作って行く&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;講演していると再利用可能なページが増える&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;「技術選定の審美眼」は完全新作&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;実際にかかった期間は年末から本番まで3ヶ月くらい&lt;/li&gt;
+&lt;li&gt;スライドの組み立て大変だったのでは？&lt;/li&gt;
+&lt;li&gt;難産だったし、プレッシャーが高かった&lt;/li&gt;
+&lt;li&gt;時々、新人研修で技術の進化の歴史は振り子のように見えて螺旋なんだよという話をする&lt;/li&gt;
+&lt;li&gt;これについてフォーカスして話してほしいという依頼を承った&lt;/li&gt;
+&lt;li&gt;ヤバい、テーマがとても大きい、失敗したときもリスクも高いなぁと&lt;/li&gt;
+&lt;li&gt;螺旋の話と、devsumi 2018テーマ「変わるもの×変わらないもの」を主軸に&lt;/li&gt;
+&lt;li&gt;技術の歴史というのはある周期で繰り返しているように見えても完全な繰り返しではなく、決定的な技術の変化とかを経て進化しているもので、ベテランには揺り戻しがあるように見える、という話&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;経験として、 &lt;strong&gt;やや背伸びした講演から得られる成長機会はとても大きい&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[https://speakerdeck.com/twada/understanding-the-spiral-of-technologies:embed:cite]
+[https://event.shoeisha.jp/devsumi/20180215:embed:cite]&lt;/p&gt;
+&lt;h3&gt;講演の準備／資料の作り方とコツ&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;完成品としての講演の中身は、本番直前のテンションでまとまって行くもの&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;資料が出来上がるのは直前&lt;/li&gt;
+&lt;li&gt;体感的には時間の8割はメモしている時間&lt;/li&gt;
+&lt;li&gt;本番の3ヶ月前に依頼をもらったとして、ネタ集めの期間が2ヶ月半&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;公演資料を作るコツ＝「講演資料を作り始めないこと」&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;スライド作りに着手するのは早すぎても遅すぎてもいけない&lt;/li&gt;
+&lt;li&gt;特に大きめの舞台で講演するときは、いきなりプレゼン資料を作り始めないのが大事&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;考えるべきはテーマ設定とかメッセージ&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;発散フェーズが続く&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;simplenote に「デブサミ2018」みたいなノートを作って、何か思いついたものを全てそこに書いている&lt;/li&gt;
+&lt;li&gt;こんなことを喋れる、こんなことを喋りたい&lt;/li&gt;
+&lt;li&gt;散歩してるときとか、本屋行ったときとかに思いつく&lt;/li&gt;
+&lt;li&gt;体験として大きかったのは「大きめの本屋の技術書コーナー」&lt;/li&gt;
+&lt;li&gt;古い本から新しい本まである、背表紙に技術の歴史が見える&lt;/li&gt;
+&lt;li&gt;イメージが湧く → ただひたすらメモを取る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;発散からだんだん収縮させて行く&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ネタをひたすら集めると同時に、構成・骨組みを考える&lt;/li&gt;
+&lt;li&gt;大事なメッセージは何だろうか？&lt;/li&gt;
+&lt;li&gt;聞いて下さるお客さんに一番伝えたいのは？&lt;/li&gt;
+&lt;li&gt;持って帰って貰えるものは？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;骨組みに合わせてパーツを当てはめて行く&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;自分に合った道具を使う&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最近はスマホでメモしているけど、以前はスケッチブックでマインドマップでメモを書いていた&lt;/li&gt;
+&lt;li&gt;ふとしたときに思いついたときに、スケッチブックが手元になかったりした&lt;/li&gt;
+&lt;li&gt;とにかくメモを収集できるデバイスに&lt;/li&gt;
+&lt;li&gt;すぐ忘れちゃう、基本的に単語だけ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[https://simplenote.com/:embed:cite]
+[https://atom.io/packages/markdown-mindmap:embed:cite]&lt;/p&gt;
+&lt;h3&gt;プレゼンテーションの基本&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;参考にしてる本＝『スティーブ・ジョブズ驚異のプレゼン』&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;タイトルも表紙も信者くさくて人に勧めづらいけど、中身はとってもよい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;プレゼンテーションの基本＝「ストーリーを作る、一番大事な問いに答える」&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;抑えていないとどんな綺麗な資料でも外れだし、抑えていれば文字だけでもいい&lt;/li&gt;
+&lt;li&gt;そういった抑えるべきところを抑えている本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ディレクターズノートをいつでも見れるように書き出してあって、毎回穴埋めをする&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⇒ 各章の最後にあるその章のまとめみたいなもの&lt;/li&gt;
+&lt;li&gt;第一章&lt;/li&gt;
+&lt;li&gt;「構想はアナログでまとめろ」&lt;/li&gt;
+&lt;li&gt;「プレゼンテーションソフトを開く前によく考えて流れを作ること」&lt;/li&gt;
+&lt;li&gt;「アイディアは紙やホワイトボードに書く」&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;「生き生きとしたプレゼンテーションとするため、以下の9要素からなるべく多くを取り入れること」&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;“ヘッドライン”&lt;/li&gt;
+&lt;li&gt;“ファッションステートメント”&lt;/li&gt;
+&lt;li&gt;“3つのキーメッセージ”&lt;/li&gt;
+&lt;li&gt;などなど&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;「どのプレゼンテーションソフトを使うかではなく、どういうストーリーを作ってどう発表するかが一番大事だ」&lt;/li&gt;
+&lt;li&gt;第二章&lt;/li&gt;
+&lt;li&gt;「一番大事な問いに答える」&lt;/li&gt;
+&lt;li&gt;「聞き手はなぜアイディアや情報・製品に注視を払うべきなのか自問する」&lt;/li&gt;
+&lt;li&gt;「何故皆さんは自分の話を聞きに来る意味があるのかに集中しよう」&lt;/li&gt;
+&lt;li&gt;「その選んだポイントを明快に伝えよう」&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[asin:482224816X:detail]&lt;/p&gt;
+&lt;h3&gt;聴く人の明日からがどう変わるのかに力を込めろ&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;技術の話をするのではなく、話を通じて聴く人の日々がどう良くなるか、どう改善されるか、何が大事なのか、何が嬉しいのか、といった立場に立って話をしよう&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;講演の度に毎回考え直す&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;話せそうなことを羅列すると、ただ自分が知ってることが羅列された資料になってしまう&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;聞いた人がどうするのかが踏み込み不足になりがち&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;聞いてもらえることによって、行動が変わるとか考えが変わるとか、何らかの影響をどう持って返ってもらうかに集中しよう&lt;/li&gt;
+&lt;li&gt;そういう観点で自分のメモ書きや資料を見直すと、ちょっと視点が違うとか足りないことに気づく&lt;/li&gt;
+&lt;li&gt;ディレクターズノートの穴埋めに立ち戻る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;意識しないとどうしても忘れがち&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;自分ができていることを整理して資料にまとめる、というのは魅力的で引力を伴うのだけど、もう一歩踏み込んで&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;何を伝えたいのかをよりシャープにするために、毎回穴埋めして作り直している&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;今回の講演はキーメッセージができているかな？&lt;/li&gt;
+&lt;li&gt;この講演で明日は変わるだろうか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;「PHP7 で堅牢なコードを書く」&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;実際の「防御的プログラミング」とか「表明プログラミング」とか「制約による設計」という概念を対応付けて説明したい&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ソースコードをある程度登場させたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;「実例としてのコード」と「理論やテクニック・プラクティス」が分けて書かれてしまっている事が多い&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「制約による設計」というのはこういう考え方である、は書いてあるけど、実際にはどう書くの？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;コードも合わせて読めるようにしたい&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;そこで、コードを十分に登場させながら、かつ書籍の引用を出典も含めて示しながら、全体を構成して行きたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[https://speakerdeck.com/twada/php-conference-2016:embed:cite]
+[http://phpcon.php.gr.jp/2016/:embed:cite]&lt;/p&gt;
+&lt;h3&gt;「PHP7 で堅牢なコードを書く」の作り方&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;「PHP7 で堅牢なコードを書く」の説明の仕方は、普段の雑誌とかの原稿の書き方と同じ&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最初にテーマ設定がある&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「（賢明なソフトウェア技術者になるための第一歩は）動くプログラムを書くことと、正しいプログラムを適切に作成することの違いを認識すること」（M.A. Jackson）&lt;/li&gt;
+&lt;li&gt;これをグランドテーマとした&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;説明したい概念が多い&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「防御的プログラミング」「表明プログラミング」「制約による設計」&lt;/li&gt;
+&lt;li&gt;ある程度、説得力のあるサンプルコードが必要&lt;/li&gt;
+&lt;li&gt;サンプルがないと具体例として伝えにくい&lt;/li&gt;
+&lt;li&gt;サンプルコードは画面内に収めなければならない、という大きな制約がある&lt;/li&gt;
+&lt;li&gt;時間的な制約もある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;言えることはたくさんある&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;喋らなきゃいけないことは古典から引用できるので多い&lt;/li&gt;
+&lt;li&gt;どうやって説得力のある形でパッケージングするかが大事だった&lt;/li&gt;
+&lt;li&gt;サンプルコードを何パターンも作って、どれが無理なく流れを説明できるか、枝刈りをして行った&lt;/li&gt;
+&lt;li&gt;「サンプルコードが成長して行く」を講演の骨組みにして、それに説明を散りばめて行くことにした&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;結果的には SQL アンチパターンのより悪い形から始まってゴールに向かって行く構成になった&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「サンプルコードがだんだん良くなって行く様を追体験して、多くの人に理解してもらう」という方法が得意でよく用いる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[asin:4839921946:detail]&lt;/p&gt;
+&lt;h3&gt;講演のコツ&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;オープニングは重要&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;聴く人に自分事だと認識してもらうのが大事&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自分のことであるとか、持って帰れるものがあるとか、“あるある” と思ってもらう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;一番最初に「なぜこの講演を聴く必要があるのか」を印象付けたい&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;痛みを追体験してもらう／痛みを仮想的に体験してもらう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PHPカンファレンスでは、いきなりクイズを出した&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ひどいコードを見せて「実行時例外の原因になる可能性があるのはどの行でしょうか？」「制限時間は10秒です」&lt;/li&gt;
+&lt;li&gt;強制的に目の前の問題に皆さんに集中してもらう効果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;防御的プログラミングとかエラー処理がなされていないコードというのは、どんなコードでどういった痛みを伴うのか？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;経験のある人には分かるが、経験のない人は分からない&lt;/li&gt;
+&lt;li&gt;最初の数分で「このひどいコードからこんなにエラーの可能性があるのか」を強制的に追体験してもらう&lt;/li&gt;
+&lt;li&gt;一気に同じ船に乗ってもらう構成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;感情面での揺さぶりというか、共感とか一種の強迫観念とか、そういったものを喚起することで自分のスライドに乗っかってもらう&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;あるあるとか、これはつらいとか&lt;/li&gt;
+&lt;li&gt;そういったいろんな感情がでてくる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プレゼンの作り方ってあまり話さないし、あんまり自覚的にならない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[asin:462106603X:detail]&lt;/p&gt;
+&lt;h3&gt;資料が独り歩きを始めても講演の目標が達成できるかまで考えたい&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;大舞台で話す場合、演者のパフォーマンスも含めてプレゼンテーション&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;プレゼンテーションを印象付けるのがとても大事&lt;/li&gt;
+&lt;li&gt;大きな写真だけとか、文字だけとかのスタイルもある（ex. プレゼンテーションzen）&lt;/li&gt;
+&lt;li&gt;それは大舞台のその場にいる人に全ての価値を集中する、という講演と資料の設計&lt;/li&gt;
+&lt;li&gt;今日のエンジニア・プログラマの講演／発表は本番だけじゃない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;資料は基本的にオープンに公開されるもので、公開されたものは喋りと切り離されて資料だけが独り歩きする&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;画像1個だけだと詰んでしまう&lt;/li&gt;
+&lt;li&gt;「印象のよくわからない資料だな」と思われてしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;勝負のときは少なくとも2つある&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「本番の壇上」と「後の資料公開」&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;資料が独り歩きを始めても講演の目標が達成できるかまで考えたい&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;きちんと情報を伝えられるか&lt;/li&gt;
+&lt;li&gt;多くの人にとって考える切っ掛けになるか&lt;/li&gt;
+&lt;li&gt;行動を変えるか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;画や文字だけの資料は、場と演者が伴わないと情報が伝えられないので、公開資料には向かない&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;そういう資料を作りたいなら公開用資料は別途作りましょうという話になる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;「技術選定の審美眼」は直前まで内容や構成を練ることに時間を使った&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;「技術選定の審美眼」はまだ「喋りがなくても」の段階まで達していない&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;再演を経て改善されて行くもので、まだ発展途上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;今回は普段使っている Keynote を使っていない&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Keynote をバリバリ使ってるものと比べると、というのはある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Markdown からプレゼンテーションを生成するツールを使っている&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直前まで難産したのもあって、ギリギリまで作り込まずに文字情報としての内容や構成を練ることに時間を使いたかった&lt;/li&gt;
+&lt;li&gt;Keynote を最後まで開かずに、メモ書きをだんだんまとめていってツリー構造にして&lt;/li&gt;
+&lt;li&gt;それをプレゼンとして生成して、ちょっと CSS を書いて&lt;/li&gt;
+&lt;li&gt;みたいな感じで本番に至った&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;過去回&lt;/h2&gt;
+&lt;p&gt;[https://ajito.fm/23/:embed:cite]
+[https://ajito.fm/13/:embed:cite]
+[https://ajito.fm/6/:embed:cite]&lt;/p&gt;</content:encoded></item></channel></rss>
