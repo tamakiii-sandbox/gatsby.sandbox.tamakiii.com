@@ -26,7 +26,7 @@ jobs:
 #         restore-keys: ${{ runner.os }}-package-lock
 
     - name: Build
-      run: pwd && ls -lsa
+      run: make build
 
 #     - name: Deploy
 #       uses: peaceiris/actions-gh-pages@v3
