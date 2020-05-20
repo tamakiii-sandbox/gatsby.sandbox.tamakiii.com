@@ -18,12 +18,12 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
 
-    - name: Cache dependencies
-      uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-package-lock-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: ${{ runner.os }}-package-lock
+#     - name: Cache dependencies
+#       uses: actions/cache@v1
+#       with:
+#         path: ~/.npm
+#         key: ${{ runner.os }}-package-lock-${{ hashFiles('**/package-lock.json') }}
+#         restore-keys: ${{ runner.os }}-package-lock
 
     - name: Build
       run: pwd && ls -lsa
