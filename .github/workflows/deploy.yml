@@ -21,12 +21,12 @@ jobs:
     - name: Install
       run: make install
 
-#     - name: Cache dependencies
-#       uses: actions/cache@v1
-#       with:
-#         path: node_modules
-#         key: ${{ runner.os }}-package-lock-${{ hashFiles('**/package-lock.json') }}
-#         restore-keys: ${{ runner.os }}-package-lock
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-package-lock-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-package-lock
 
     - name: Build
       run: make build
