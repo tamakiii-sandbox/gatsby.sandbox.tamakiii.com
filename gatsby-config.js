@@ -42,23 +42,6 @@ module.exports = {
               wrapperStyle: `margin-bottom: 1.0725rem`,
             },
           },
-          {
-            resolve: `gatsby-transformer-remark`,
-            options: {
-              plugins: [
-                {
-                  resolve: `@raae/gatsby-remark-oembed`,
-                  options: {
-                    // usePrefix: true,
-                    usePrefix: ["embed", "video", "oembed"],
-                    providers: {
-                      exclude: ["Reddit"],
-                    },
-                  },
-                },
-              ],
-            },
-          },
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
